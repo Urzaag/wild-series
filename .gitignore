@@ -18,3 +18,12 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+###> .idea, DS_STORE ###
+.idea
+DS_STORE
+###< .idea et DS_STORE ###
+
+###> database config ###
+.env
+###< database config ###
