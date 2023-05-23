@@ -13,27 +13,27 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         0 => [
             'title' => 'Le seigneur des anneaux',
             'synopsis' => 'La meilleure saga de tous les temps. Pas de débat.',
-            'category' => 'category_Fantastique',
+            'category' => 'Fantastique',
         ],
         1 => [
             'title' => 'Lost',
             'synopsis' => 'Après s\'être écrasé sur une île déserte, un groupe de survivants tente de percer les mystères de l\'île',
-            'category' => 'category_Aventure'
+            'category' => 'Aventure'
         ],
         2 => [
             'title' => 'Les Fils de l\'Homme',
             'synopsis' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel.',
-            'category' => 'category_Action'
+            'category' => 'Action'
         ],
         3 => [
             'title' => 'Whiplash',
             'synopsis' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel.',
-            'category' => 'category_Horreur'
+            'category' => 'Horreur'
         ],
         4 => [
             'title' => 'Birdman',
             'synopsis' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel.',
-            'category' => 'category_Horreur'
+            'category' => 'Horreur'
         ],
     ];
     public function load(ObjectManager $manager): void
@@ -58,7 +58,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
                         $program->setSynopsis($programs['synopsis']);
                         break;
                     case 'category':
-                        $program->setCategory($this->getReference($programs['category']));
+                        $program->setCategory($this->getReference('category_' . $programs['category']));
                         break;
                 }
                 $manager->persist($program);
