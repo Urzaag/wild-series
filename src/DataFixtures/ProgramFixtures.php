@@ -10,27 +10,27 @@ use Doctrine\Persistence\ObjectManager;
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
     public const PROGRAMS = [
-        0 => [
+        1 => [
             'title' => 'Le seigneur des anneaux',
             'synopsis' => 'La meilleure saga de tous les temps. Pas de débat.',
             'category' => 'Fantastique',
         ],
-        1 => [
+        2 => [
             'title' => 'Lost',
             'synopsis' => 'Après s\'être écrasé sur une île déserte, un groupe de survivants tente de percer les mystères de l\'île',
             'category' => 'Aventure'
         ],
-        2 => [
+        3 => [
             'title' => 'Les Fils de l\'Homme',
             'synopsis' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel.',
             'category' => 'Action'
         ],
-        3 => [
+        4 => [
             'title' => 'Whiplash',
             'synopsis' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel.',
             'category' => 'Horreur'
         ],
-        4 => [
+        5 => [
             'title' => 'Birdman',
             'synopsis' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel.',
             'category' => 'Horreur'
@@ -38,7 +38,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
     ];
     public function load(ObjectManager $manager): void
     {
-        foreach (self::PROGRAMS as $programs)
+        foreach (self::PROGRAMS as $key => $programs)
         {
             $program = new Program();
 
@@ -47,7 +47,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $program->setCategory($this->getReference('category_' . $programs['category']));
 
             $manager->persist($program);
-            $this->addReference('program_' . $programs['title'], $program);
+            $this->addReference('program_' . $key, $program);
 
 
         }
