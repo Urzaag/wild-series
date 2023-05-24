@@ -6,6 +6,7 @@ use App\Entity\Episode;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class EpisodeFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -33,16 +34,24 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
     {
         // $product = new Product();
         // $manager->persist($product);
-        foreach (self::EPISODES as $episodes)
+        $faker = Factory::create();
+
+        for ($programIterator = 1; $programIterator <= 5; $programIterator++)
         {
-            $episode = new Episode();
+            for ($seasonIterator = 1; $seasonIterator <= 5; $seasonIterator++)
+            {
+                for ($episodeIterator = 1; $episodeIterator <= 10; $episodeIterator++)
+                {
+                    $episode = new Episode();
 
-            $episode->setNumber($episodes['number']);
-            $episode->setTitle($episodes['title']);
-            $episode->setSynopsis($episodes['synopsis']);
-            $episode->setSeason($this->getReference('season_' . $episodes['season']));
+                    $episode->setNumber($episodeIterator);
+                    $episode->setTitle($faker->word());
+                    $episode->setSynopsis($faker->paragraphs(3, true));
+                    $episode->setSeason($this->getReference('program_' . $programIterator . '_season_' . $seasonIterator));
+                    $manager->persist($episode);
+                }
 
-            $manager->persist($episode);
+            }
         }
 
         $manager->flush();
