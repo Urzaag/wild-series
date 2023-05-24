@@ -6,6 +6,7 @@ use App\Entity\Season;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class SeasonFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -29,22 +30,27 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
             'program' => 'Lost'
         ]
     ];
+
     public function load(ObjectManager $manager): void
     {
-        // TODO: set the right values to the te right fields, add reference to the right program and create one for episodes to rely
-        // $product = new Product();
-        // $manager->persist($product);
+        $faker = Factory::create();
 
-        foreach (self::SEASONS as $seasons)
+        for ($programIterator = 1; $programIterator <= 5; $programIterator++)
         {
-            $season = new Season();
-            $season->setNumber($seasons['number']);
-            $season->setYear($seasons['year']);
-            $season->setDescription($seasons['description']);
-            $season->setProgram($this->getReference('program_' . $seasons['program']));
+            for ($seasonIterator = 1; $seasonIterator <= 5; $seasonIterator++)
+            {
+                $season = new Season();
+                //$season->setNumber($seasons['number']);
+                $season->setNumber($seasonIterator);
+                //$season->setYear($seasons['year']);
+                $season->setYear($faker->year());
+                //$season->setDescription($seasons['description']);
+                $season->setDescription($faker->paragraphs(3, true));
 
-            $manager->persist($season);
-            $this->addReference('season_' . $seasons['number'], $season);
+                $season->setProgram($this->getReference('program_' . $programIterator));
+                $manager->persist($season);
+                $this->addReference('program_' . $programIterator . '_season_' . $seasonIterator, $season);
+            }
         }
 
         $manager->flush();
