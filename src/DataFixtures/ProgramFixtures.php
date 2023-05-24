@@ -38,31 +38,18 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
     ];
     public function load(ObjectManager $manager): void
     {
-        foreach (self::PROGRAMS as $key => $programs)
+        foreach (self::PROGRAMS as $programs)
         {
             $program = new Program();
-            foreach ($programs as $key => $programDetails)
-            {
-                /*if ($key == 'title') {
-                    $program->setTitle('test1');
-                } elseif ($key == 'synopsis') {
-                    $program->setSynopsis('test2');
-                } elseif ($key == 'category') {
-                    $program->setCategory('test3');
-                }*/
-                switch ($key) {
-                    case 'title':
-                        $program->setTitle($programs['title']);
-                        break;
-                    case 'synopsis':
-                        $program->setSynopsis($programs['synopsis']);
-                        break;
-                    case 'category':
-                        $program->setCategory($this->getReference('category_' . $programs['category']));
-                        break;
-                }
-                $manager->persist($program);
-            }
+
+            $program->setTitle($programs['title']);
+            $program->setSynopsis($programs['synopsis']);
+            $program->setCategory($this->getReference('category_' . $programs['category']));
+
+            $manager->persist($program);
+            $this->addReference('program_' . $programs['title'], $program);
+
+
         }
 
         $manager->flush();
