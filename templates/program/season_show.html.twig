@@ -13,12 +13,17 @@
 
             <h3>Liste des épisodes</h3>
             <ul>
-                {% for episodes in season.episodes %}
+                {% for episode in season.episodes %}
                     <li>
-                        Episode {{ episodes.number }} : {{ episodes.title }} <br>
-                        <em>{{ episodes.synopsis }}</em>
+                        <h3>Episode {{ episode.number }} : {{ episode.title }}</h3>
+                        <em>{{ episode.synopsis }}</em>
+                        <a href="{{ path('program_episode_show', { programId: program.id, seasonId: season.id, episodeId: episode.id }) }}">Voir la fiche</a>
                     </li>
+                {% else %}
+                    <h3>lol</h3>
                 {% endfor %}
+
+
             </ul>
         </div>
     </div>
