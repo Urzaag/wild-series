@@ -34,7 +34,7 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
     {
         // $product = new Product();
         // $manager->persist($product);
-        $faker = Factory::create();
+        $faker = Factory::create('fr_FR');
 
         for ($programIterator = 1; $programIterator <= 5; $programIterator++)
         {
