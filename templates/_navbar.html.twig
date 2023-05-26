@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ path('app_index') }}">
                 <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
                 Wild séries
             </a>
@@ -13,21 +13,19 @@
                         Catégories
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        {% for category in allCategories.findAll %}
+                            <li><a class="dropdown-item" href="{{ path('category_show', {categoryName: category.name}) }}">{{ category.name }}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Acteurs
+                        Programmes
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        {% for program in allPrograms.findAll %}
+                            <li><a class="dropdown-item" href="{{ path('program_show', {id: program.id}) }}">{{ program.title }}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
                 <li class="nav-item">
