@@ -44,6 +44,7 @@ class ProgramController extends AbstractController
             // Deal with the submitted data
             // For example : persiste & flush the entity
             $programRepository->save($program, true);
+            $this->addFlash('success', 'The new program has been created');
             // And redirect to a route that display the result
             return $this->redirectToRoute('program_index');
         }
