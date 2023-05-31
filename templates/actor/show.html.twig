@@ -4,10 +4,11 @@
     <div class="media">
         <div class="media-body">
             <h1 class="mt-0">Acteur de merde dont tout le monde se fout : {{ actor.name }}</h1>
+            <img src="{{ vich_uploader_asset(actor) }}" alt="{{ actor.name }}">
             <h3>Liste des programes avec l'autre con : </h3>
             <ul>
                 {% for program in actor.programs %}
-                    <li><a href="{{ path('program_show', {id: program.id}) }}"{{ program.title }}>Voir sa série pétée</a></li>
+                    <li><a href="{{ path('program_show', {slug: program.slug}) }}"{{ program.title }}>Voir sa série pétée</a></li>
                 {% endfor %}
             </ul>
         </div>

@@ -32,7 +32,7 @@ class Episode
     #[ORM\Column]
     private ?int $duration = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $slug = null;
 
     public function getId(): ?int
