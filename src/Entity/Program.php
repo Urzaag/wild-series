@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProgramRepository::class)]
-#[Assert\EnableAutoMapping]
+//#[Assert\EnableAutoMapping]
 #[UniqueEntity(
     fields: 'title',
     message: 'Titre déjà pris Michel'
@@ -45,11 +45,15 @@ class Program
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
-    #[ORM\OneToMany(mappedBy: 'program', targetEntity: Season::class, cascade: ['persist', 'remove'])]
+    // TODO : remove cascade persist
+    #[ORM\OneToMany(mappedBy: 'program', targetEntity: Season::class/*, cascade: ['persist', 'remove']*/)]
     private Collection $seasons;
 
     #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: 'programs')]
     private Collection $actors;
+
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
 
     public function __construct()
     {
@@ -163,6 +167,18 @@ class Program
         if ($this->actors->removeElement($actor)) {
             $actor->removeProgram($this);
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

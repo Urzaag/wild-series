@@ -13,10 +13,12 @@
                 {% for seasons in program.seasons %}
                     <li>
                         <h4>{{ loop.index }} / saison {{ seasons.number }} de {{ program.title }}</h4>
-                        <a href="{{ path('program_season_show', { programId: program.id, seasonId: seasons.id }) }}">Voir la fiche</a>
+                        <a href="{{ path('program_season_show', { programSlug: program.slug, seasonId: seasons.id }) }}">Voir la fiche</a>
                     </li>
                 {% endfor %}
             </ul>
+            <p>Durée du programme</p>
+            <p>{{ programDuration }}</p>
         </div>
     </div>
 

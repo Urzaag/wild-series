@@ -8,13 +8,14 @@ use App\Entity\Season;
 use App\Form\ProgramType;
 use App\Repository\ProgramRepository;
 use App\Repository\SeasonRepository;
+use App\Service\ProgramDuration;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 #[Route('/program', name: 'program_')]
@@ -31,8 +32,8 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'new')]
-    public function new(Request $request, ProgramRepository $programRepository): Response
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    public function new(Request $request, ProgramRepository $programRepository, SluggerInterface $slugger): Response
     {
         $program = new Program();
 
@@ -40,8 +41,11 @@ class ProgramController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid()) {
             // Deal with the submitted data
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
             // For example : persiste & flush the entity
             $programRepository->save($program, true);
             $this->addFlash('success', 'The new program has been created');
@@ -49,13 +53,14 @@ class ProgramController extends AbstractController
             return $this->redirectToRoute('program_index');
         }
 
-        return $this->render('program/new.html.twig', [
-            'form' => $form
+        return $this->renderForm('program/new.html.twig', [
+            'form' => $form,
+            'program' => $program,
         ]);
     }
 
-    #[Route('/{id}', name: 'show', requirements: ['id'=>'\d+'], methods: ['GET'])]
-    public function show(Program $program): Response
+    #[Route('/{slug}', name: 'show', requirements: ['id'=>'\d+'], methods: ['GET'])]
+    public function show(Program $program, ProgramDuration $programDuration): Response
     {
 
         if(!$program) {
@@ -66,11 +71,12 @@ class ProgramController extends AbstractController
 
         return $this->render('program/show.html.twig', [
             'program' => $program,
+            'programDuration' => $programDuration->calculate($program),
         ]);
     }
 
-    #[Route('/{programId}/seasons/{seasonId}', name: 'season_show')]
-    #[Entity('program', options: ['mapping' => ['programId' => 'id']])]
+    #[Route('/{programSlug}/seasons/{seasonId}', name: 'season_show')]
+    #[Entity('program', options: ['mapping' => ['programSlug' => 'slug']])]
     #[Entity('season', options: ['mapping' => ['seasonId' => 'id']])]
     //public function showSeason(int $programId, ProgramRepository $programRepository, int $seasonId, SeasonRepository $seasonRepository): Response
     public function showSeason(Program $program, Season $season): Response
@@ -83,10 +89,10 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{programId}/season/{seasonId}/episode/{episodeId}', name: 'episode_show')]
-    #[Entity('program', options: ['mapping' => ['programId' => 'id']])]
+    #[Route('/{programSlug}/season/{seasonId}/episode/{episodeSlug}', name: 'episode_show')]
+    #[Entity('program', options: ['mapping' => ['programSlug' => 'slug']])]
     #[Entity('season', options: ['mapping' => ['seasonId' => 'id']])]
-    #[Entity('episode', options: ['mapping' => ['episodeId' => 'id']])]
+    #[Entity('episode', options: ['mapping' => ['episodeId' => 'slug']])]
     //#[Route('/{program}/season/{season}/episode/{episode}', name: 'episode_show')]
     public function showEpisode(Program $program, Season $season, Episode $episode): Response
     {
@@ -96,4 +102,5 @@ class ProgramController extends AbstractController
             'episode' => $episode,
         ]);
     }
+
 }

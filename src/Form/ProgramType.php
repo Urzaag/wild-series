@@ -25,8 +25,8 @@ class ProgramType extends AbstractType
                 'expanded' => true,
                 'by_reference' => false,
             ])
-            ->add('category', null, ['choice_label' => 'name'])
-        ;
+            ->add('category', null, ['choice_label' => 'name']
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
