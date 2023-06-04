@@ -35,6 +35,15 @@
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content: flex-end !important;">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ws-navbar-ul">
+                {% if app.user %}
+                    <li class="nav-item">
+                        {{ app.user.email }}
+                        <a href="{{ path('app_logout') }}"> Se déconnecter</a>
+                    </li>
+                {% else %}
+                    <a href="{{ path('app_login') }}"> Se connecter</a>
+                {% endif %}
+{#
                 <li class="nav-item">
                     <a class="nav-link active" href="#">Déconnexion</a>
                 </li>
@@ -43,7 +52,7 @@
                         John Doe
                         <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
                     </a>
-                </li>
+                </li>#}
             </ul>
         </div>
     </div>
