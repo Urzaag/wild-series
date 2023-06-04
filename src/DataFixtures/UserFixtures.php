@@ -36,10 +36,12 @@ class UserFixtures extends Fixture
                 case 0:
                     $user->setRoles(['ROLE_CONTRIBUTOR']);
                     $user->setEmail('contributor@site.com');
+                    $this->addReference('user_contributor', $user);
                     break;
                 case 1:
                     $user->setRoles(['ROLE_ADMIN']);
                     $user->setEmail('admin@site.com');
+                    $this->addReference('user_admin', $user);
                     break;
             }
             $manager->persist($user);

@@ -38,6 +38,11 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         ],
     ];
 
+    public const USERS = [
+        'contributor',
+        'admin'
+    ];
+
     private SluggerInterface $slugger;
 
     public function __construct(SluggerInterface $slugger)
@@ -51,6 +56,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         {
             $program = new Program();
 
+            $program->setOwner($this->getReference('user_' . self::USERS[array_rand(self::USERS, 1)]));
             $program->setTitle($programs['title']);
             $program->setSynopsis($programs['synopsis']);
             $program->setCategory($this->getReference('category_' . $programs['category']));
@@ -69,6 +75,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             CategoryFixtures::class,
+            UserFixtures::class,
         ];
     }
 }

@@ -48,6 +48,7 @@ class ProgramController extends AbstractController
             // Deal with the submitted data
             $slug = $slugger->slug($program->getTitle());
             $program->setSlug($slug);
+            $program->setOwner($this->getUser());
             // For example : persiste & flush the entity
             $programRepository->save($program, true);
             $this->addFlash('success', 'The new program has been created');
@@ -66,6 +67,31 @@ class ProgramController extends AbstractController
         return $this->renderForm('program/new.html.twig', [
             'form' => $form,
             'program' => $program,
+        ]);
+    }
+
+    #[Route('/{slug}/edit', name: 'app_program_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Program $program, ProgramRepository $programRepository, SluggerInterface $slugger): Response
+    {
+        if ($this->getUser() !== $program->getOwner()) {
+            // If not the owner, throws a 403 Access Denied exception
+            throw $this->createAccessDeniedException('Only the owner can edit the program!');
+        }
+
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
+            $programRepository->save($program, true);
+            $this->addFlash('success', 'The new program has been updated');
+            return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('program/edit.html.twig', [
+            'program' => $program,
+            'form' => $form,
         ]);
     }
 
