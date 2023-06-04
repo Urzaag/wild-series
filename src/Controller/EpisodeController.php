@@ -68,13 +68,19 @@ class EpisodeController extends AbstractController
             $author = $this->getUser();
             $comment->setAuthor($author);
             $comment->setEpisode($episode);
+            $comment->setCreatedAt(new \DateTimeImmutable('now'));
+            $comment->setUpdatedAt(new \DateTime('now'));
             $commentRepository->save($comment, true);
             $this->addFlash('success', 'The new comment has been added');
             return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
         }
 
         // TODO : display commments by newest and fix logout GET route not found
-        $comments = $episode->getComments();
+        //$comments = $episode->getComments();
+        $comments = $commentRepository->findBy(
+            ['episode' => $episode->getId()],
+            ['createdAt' => 'DESC']
+        );
         return $this->render('episode/show.html.twig', [
             'episode' => $episode,
             'comments' => $comments,

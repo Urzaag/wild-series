@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ProgramRepository::class)]
-#[Vich\Uploadable]
+    #[Vich\Uploadable]
 //#[Assert\EnableAutoMapping]
 #[UniqueEntity(
     fields: 'title',
