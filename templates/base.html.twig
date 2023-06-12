@@ -13,17 +13,21 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body {{ stimulus_controller('theme') }} {{ stimulus_target('theme', 'body') }}> {# ou <body data-controller="hello"> #}
-        <header>
-            {% include '_navbar.html.twig' %}
-        </header>
-        {% for category, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ category }}">
-                    {{ message }}
-                </div>
+    <body {{ stimulus_controller('theme symfony/ux-swup/swup') }}
+            {{ stimulus_target('theme', 'body') }}> {# ou <body data-controller="hello"> #}
+
+            <header>
+                {% include '_navbar.html.twig' %}
+            </header>
+            {% for category, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-        {% block body %}{% endblock %}
+        <div id="swup" {#data-turbo="false"#}>
+            {% block body %}{% endblock %}
+        </div>
     </body>
 </html>

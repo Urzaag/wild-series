@@ -3,7 +3,22 @@
 {% block title %}Wild Series{% endblock %}
 
 {% block body %}
-    <h1>{{ website }} index</h1>
+    <h1
+            {{ stimulus_controller('symfony/ux-typed', {
+                strings: [
+                    'I ❤️ Symfony UX!',
+                    'Symfony UX Typed loves to type',
+                    'Symfony UX Typed and backspace',
+                    'Control the speed',
+                    'Control the cursor',
+                    'Control your destiny!!!',
+                    'Control your destiny... sort of',
+                ],
+                loop: true,
+                showCursor: true,
+                cursorChar: '✨',
+            }) }}
+    ></h1>
     {#{% set img = asset('build/images/pexels-alexandra-kollstrem-9248424.jpg') %}#}
 
     {#<img src="{{ asset('build/images/pexels-alexandra-kollstrem-9248424.jpg') }}" alt=""/>#}
