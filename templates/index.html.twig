@@ -5,18 +5,14 @@
 {% block body %}
     <h1
             {{ stimulus_controller('symfony/ux-typed', {
-                strings: [
-                    'I ❤️ Symfony UX!',
-                    'Symfony UX Typed loves to type',
-                    'Symfony UX Typed and backspace',
-                    'Control the speed',
-                    'Control the cursor',
-                    'Control your destiny!!!',
-                    'Control your destiny... sort of',
-                ],
+                strings: ['I ❤ Symfony UX', 'Symfony UX is great', 'Symfony UX is easy'],
+                smartBackspace: true,
+                startDelay: 100,
+                backSpeed: 20,
+                backDelay: 100,
                 loop: true,
                 showCursor: true,
-                cursorChar: '✨',
+                cursorChar: '✨'
             }) }}
     ></h1>
     {#{% set img = asset('build/images/pexels-alexandra-kollstrem-9248424.jpg') %}#}

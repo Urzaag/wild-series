@@ -13,7 +13,9 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body {{ stimulus_controller('theme symfony/ux-swup/swup') }}
+    <body {{ stimulus_controller('theme symfony/ux-swup/swup', {
+        theme: 'slide',
+    }) }}
             {{ stimulus_target('theme', 'body') }}> {# ou <body data-controller="hello"> #}
 
             <header>
@@ -27,6 +29,9 @@
                 {% endfor %}
             {% endfor %}
         <div id="swup" {#data-turbo="false"#}>
+            <aside>
+                {{ component('last_episode') }}
+            </aside>
             {% block body %}{% endblock %}
         </div>
     </body>

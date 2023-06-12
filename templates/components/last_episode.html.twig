@@ -1,0 +1,11 @@
+<div{{ attributes }}>
+    <ul>
+        {% for episode in this.lastEpisodes %}
+            <li>
+                <h3>{{ episode.title }}</h3>
+                <p>Episode n°{{ episode.number }} de {{ episode.season.program.title }}</p>
+                <a href="{{ path('app_episode_show', {slug: episode.slug}) }}">Voir la fiche</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

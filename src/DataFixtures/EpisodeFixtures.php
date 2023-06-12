@@ -59,6 +59,7 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
                     $episode->setSeason($this->getReference('program_' . $programIterator . '_season_' . $seasonIterator));
                     $episode->setDuration($faker->randomNumber(2));
                     $episode->setSlug($this->slugger->slug($episode->getTitle()));
+                    $episode->setCreatedAt(new \DateTimeImmutable('now'));
                     $manager->persist($episode);
                 }
 
